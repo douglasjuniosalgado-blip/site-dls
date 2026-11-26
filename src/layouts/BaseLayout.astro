@@ -1,0 +1,127 @@
+---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { SITE } from '../config/site';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+
+const { title, description, canonicalPath, jsonLd } = Astro.props;
+const pathname = canonicalPath || Astro.url.pathname;
+const canonicalUrl = new URL(pathname === '/' ? '/' : pathname.replace(/\/+$/, ''), SITE.url).toString();
+const ogImageUrl = new URL('/icone-512.png', SITE.url).toString();
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: SITE.name,
+  url: SITE.url,
+  email: SITE.email,
+  telephone: `+${SITE.whatsappNumber}`,
+  description:
+    'Consultoria em produto digital: diagnóstico de produto, plano de ação e acompanhamento consultivo para decidir o que vale construir, com base em evidência.',
+  areaServed: 'BR',
+  availableLanguage: 'pt-BR',
+};
+
+const schemas = jsonLd
+  ? Array.isArray(jsonLd)
+    ? [organizationSchema, ...jsonLd]
+    : [organizationSchema, jsonLd]
+  : [organizationSchema];
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Open Graph para LinkedIn e WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Favicons oficiais do kit da marca -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/dls-favicon.svg" type="image/svg+xml" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png" />
+    <meta name="theme-color" content="#283211" />
+
+    <!-- Configuração de telemetria sem cookies (valores vêm apenas do .env) -->
+    <meta
+      name="dls-telemetry"
+      data-posthog-key={SITE.posthogKey}
+      data-posthog-host={SITE.posthogHost}
+    />
+
+    <!-- Regra A2: ativa revelações progressivas somente quando o JS roda -->
+    <script is:inline>
+      document.documentElement.classList.add('js-ready');
+      document.addEventListener('astro:after-swap', function () {
+        document.documentElement.classList.add('js-ready');
+      });
+    </script>
+
+    <!-- View Transitions API (seção 9 do plano) -->
+    <ClientRouter />
+
+    <!-- Dados estruturados schema.org para SEO e GEO -->
+    {
+      schemas.map((schema) => (
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />
+      ))
+    }
+
+    <!-- Cloudflare Web Analytics (sem cookies; carregado só se o token estiver no .env) -->
+    {
+      SITE.cfAnalyticsToken && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: SITE.cfAnalyticsToken })}
+        />
+      )
+    }
+  </head>
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo principal</a>
+    <Header currentPath={pathname} />
+    <main id="conteudo">
+      <slot />
+    </main>
+    <Footer />
+    <Lightbox />
+    <script>
+      import '../scripts/interactions';
+    </script>
+  </body>
+</html>

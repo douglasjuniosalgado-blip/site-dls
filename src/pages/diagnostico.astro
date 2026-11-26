@@ -1,0 +1,645 @@
+---
+import { Image, getImage } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RhythmBars from '../components/RhythmBars.astro';
+import FinalCta from '../components/FinalCta.astro';
+import WhatsappIcon from '../components/WhatsappIcon.astro';
+import { getWhatsappBookingUrl } from '../config/site';
+
+const whatsappBookingUrl = getWhatsappBookingUrl();
+
+import ent01 from '../assets/images/DLS_ENT-01_mapa-jornada_t1.png';
+import ent02 from '../assets/images/DLS_ENT-02_indicadores_t1.png';
+import ent03 from '../assets/images/DLS_ENT-03_backlog_t1.png';
+import ent04 from '../assets/images/DLS_ENT-04_plano-acao_t1.png';
+
+const ent01Zoom = await getImage({ src: ent01, width: 1800, format: 'webp', quality: 86 });
+const ent02Zoom = await getImage({ src: ent02, width: 1800, format: 'webp', quality: 86 });
+const ent03Zoom = await getImage({ src: ent03, width: 1800, format: 'webp', quality: 86 });
+const ent04Zoom = await getImage({ src: ent04, width: 1800, format: 'webp', quality: 86 });
+
+const versions = [
+  {
+    id: 'jornada',
+    tag: 'Versão 1',
+    title: 'Jornada',
+    lead: 'Onde quem usa ou vai usar o produto trava, e o que melhorar primeiro.',
+    items: [
+      'Mapa da jornada atual',
+      'Pontos de fricção priorizados, com evidência',
+      'Visão de melhoria em alto nível',
+    ],
+    limit: 'Escopo de referência: até 2 jornadas e 5 entrevistas.',
+    image: ent01,
+    zoom: ent01Zoom.src,
+    alt: 'Exemplo de página do Mapa de Jornada da DLS com fricções priorizadas',
+    caption: 'Exemplo de página do entregável de Jornada, com empresa e números fictícios.',
+  },
+  {
+    id: 'indicadores',
+    tag: 'Versão 2',
+    title: 'Indicadores',
+    lead: 'O que os números dizem hoje e o que falta medir para tomar decisão.',
+    items: [
+      'Auditoria das métricas de uso existentes',
+      'Funil reconstruído com os dados disponíveis',
+      'Lacunas de medição e leitura crítica dos números',
+    ],
+    limit: 'Escopo de referência: 1 produto digital, com dados fornecidos pelo cliente.',
+    image: ent02,
+    zoom: ent02Zoom.src,
+    alt: 'Exemplo de página de Auditoria de Indicadores da DLS com funil reconstruído',
+    caption: 'Exemplo de página do entregável de Indicadores, com empresa e números fictícios.',
+  },
+  {
+    id: 'backlog',
+    tag: 'Versão 3',
+    title: 'Backlog',
+    lead: 'Se o que está na fila de entrega é mesmo o que deveria estar lá.',
+    items: [
+      'Maturidade do backlog por dimensão',
+      'Qualidade das histórias e das regras de negócio',
+      'Mapeamento dos principais riscos de entrega',
+    ],
+    limit: 'Escopo de referência: 1 backlog ou projeto.',
+    image: ent03,
+    zoom: ent03Zoom.src,
+    alt: 'Exemplo de página de Diagnóstico de Backlog da DLS com maturidade por dimensão',
+    caption: 'Exemplo de página do entregável de Backlog, com empresa e números fictícios.',
+  },
+];
+
+const stages = [
+  {
+    id: 'coleta',
+    num: '01',
+    title: 'Coleta',
+    summary: 'Levantar a realidade do produto digital antes de opinar.',
+    detail:
+      'Reunimos dados de uso disponíveis, entrevistas com quem usa ou vai usar o produto, backlog, documentação e conversas com o ponto focal.',
+  },
+  {
+    id: 'analise',
+    num: '02',
+    title: 'Análise',
+    summary: 'Cruzar fontes para separar sintoma de causa.',
+    detail:
+      'Relacionamos o que aparece nos números, nas entrevistas e na fila de entrega para priorizar os problemas pelo impacto real no produto e no negócio.',
+  },
+  {
+    id: 'sintese',
+    num: '03',
+    title: 'Síntese',
+    summary: 'Um documento técnico direto, pronto para orientar decisões.',
+    detail:
+      'Estruturamos os achados com evidência, os problemas priorizados e recomendações claras, explicando o porquê de cada ponto para o conhecimento ficar com o time.',
+  },
+  {
+    id: 'apresentacao',
+    num: '04',
+    title: 'Apresentação',
+    summary: 'Leitura conjunta com o time e uma rodada de revisão incluída.',
+    detail:
+      'Apresentamos o diagnóstico aos envolvidos para alinhar entendimento, responder dúvidas e incorporar uma rodada de revisão antes do encerramento.',
+  },
+];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Diagnóstico de Produto',
+  serviceType: 'Consultoria em produto digital',
+  provider: {
+    '@type': 'ProfessionalService',
+    name: 'DLS Estratégia e Consultoria',
+  },
+  description:
+    'Retrato fundamentado do seu produto digital em 2 a 4 semanas, nas versões Jornada, Indicadores ou Backlog, com problemas priorizados e recomendações claras.',
+  areaServed: 'BR',
+};
+---
+
+<BaseLayout
+  title="Diagnóstico de Produto | Consultoria em produto digital · DLS"
+  description="Diagnóstico de Produto Digital em 2 a 4 semanas nas versões Jornada, Indicadores ou Backlog. Escopo fechado, documento técnico priorizado e recomendações claras."
+  canonicalPath="/diagnostico"
+  jsonLd={serviceSchema}
+>
+  <!-- 1. Abertura -->
+  <section class="section section--dark dark-atmosphere page-hero" data-track-section="diag-abertura">
+    <RhythmBars tone="dark" />
+    <div class="wrap">
+      <span class="overline overline--on-dark">Consultoria em produto digital · produto de entrada</span>
+      <h1>Diagnóstico de Produto</h1>
+      <p class="lead">
+        Um retrato fundamentado do seu produto digital em 2 a 4 semanas, para decidir com evidência
+        o que fazer em seguida.
+      </p>
+      <div class="facts">
+        <div>
+          <b>2 a 4 semanas</b>
+          <span>de prazo fechado</span>
+        </div>
+        <div>
+          <b>Escopo definido</b>
+          <span>entregáveis e aceite claros</span>
+        </div>
+        <div>
+          <b>1 rodada</b>
+          <span>de revisão incluída</span>
+        </div>
+      </div>
+      <div class="actions">
+        <a
+          class="btn btn--primary"
+          href={whatsappBookingUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-cta="diag-hero"
+          data-contato="whatsapp"
+        >
+          <WhatsappIcon size={20} />
+          <span>Agendar pelo WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Três versões com entregáveis empilhados (B2) -->
+  <section class="section section--soft" data-track-section="diag-versoes">
+    <div class="wrap">
+      <span class="overline reveal">Três focos de entrada</span>
+      <h2 class="section-title reveal">
+        Escolha a versão que responde à decisão mais urgente do seu produto digital.
+      </h2>
+      <p class="section-lead reveal">
+        Cada versão gera um documento técnico com problemas priorizados, evidências e recomendações
+        apresentadas ao time.
+      </p>
+
+      <div class="versions">
+        {
+          versions.map((v) => (
+            <article class="version reveal" id={v.id}>
+              <div class="version__info">
+                <span class="tag">{v.tag}</span>
+                <h3>{v.title}</h3>
+                <p class="version__lead">{v.lead}</p>
+                <ul class="version__list">
+                  {v.items.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+                <p class="version__limit">{v.limit}</p>
+              </div>
+
+              <figure class="version__figure">
+                <div class="doc-stack" data-stack>
+                  <span class="doc-stack__sheet doc-stack__sheet--back" aria-hidden="true" />
+                  <span class="doc-stack__sheet doc-stack__sheet--mid" aria-hidden="true" />
+                  <button
+                    type="button"
+                    class="doc-stack__front"
+                    data-zoom-src={v.zoom}
+                    data-zoom-alt={v.alt}
+                    data-zoom-caption={v.caption}
+                    data-zoom-servico={v.id}
+                    aria-label={`Ampliar exemplo do entregável de ${v.title}`}
+                  >
+                    <Image
+                      src={v.image}
+                      widths={[520, 840]}
+                      sizes="(max-width: 820px) 88vw, 520px"
+                      format="webp"
+                      quality={84}
+                      loading="lazy"
+                      decoding="async"
+                      alt={v.alt}
+                    />
+                  </button>
+                </div>
+                <figcaption class="version__caption">
+                  {v.caption} Clique na imagem para ampliar.
+                </figcaption>
+              </figure>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Como funciona com navegação fixa à esquerda no desktop (B3) -->
+  <section class="section section--white" data-track-section="diag-como-funciona">
+    <div class="wrap">
+      <span class="overline reveal">Como funciona</span>
+      <h2 class="section-title reveal">Quatro etapas, um documento que o time consegue usar.</h2>
+
+      <div class="process-layout">
+        <nav class="process-nav" aria-label="Etapas do diagnóstico">
+          {
+            stages.map((stage, idx) => (
+              <a
+                href={`#etapa-${stage.id}`}
+                class:list={['process-nav__link', idx === 0 && 'is-active']}
+                data-step-link={stage.id}
+                aria-current={idx === 0 ? 'step' : undefined}
+              >
+                <span class="process-nav__num">{stage.num}</span>
+                <span>{stage.title}</span>
+              </a>
+            ))
+          }
+        </nav>
+
+        <div class="process-panels">
+          {
+            stages.map((stage) => (
+              <article
+                class="process-panel reveal"
+                id={`etapa-${stage.id}`}
+                data-step-panel={stage.id}
+              >
+                <span class="tag">Etapa {stage.num}</span>
+                <h3>{stage.title}</h3>
+                <p class="process-panel__summary">{stage.summary}</p>
+                <p class="process-panel__detail">{stage.detail}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="twocol">
+        <div class="info-box reveal">
+          <h3>O que precisamos de você</h3>
+          <ul>
+            <li>Acesso aos dados de uso que existirem</li>
+            <li>Acesso a pessoas que usam ou vão usar o produto, quando houver entrevista</li>
+            <li>Backlog e documentação atual</li>
+            <li>Um ponto focal para decisões ao longo das etapas</li>
+          </ul>
+        </div>
+        <div class="info-box info-box--soft reveal">
+          <h3>O que o diagnóstico não é</h3>
+          <ul>
+            <li>Não é desenvolvimento de software</li>
+            <li>Não é design de interface final</li>
+            <li>É análise, recomendação e especificação funcional com base em evidência</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Depois do diagnóstico -->
+  <section class="section section--soft" data-track-section="diag-depois">
+    <div class="wrap next-grid">
+      <div class="reveal">
+        <span class="overline">Depois do diagnóstico</span>
+        <h2 class="section-title">O Plano de Ação transforma o retrato em rota.</h2>
+        <p class="section-lead">
+          Se fizer sentido avançar depois da entrega, o Plano de Ação transforma o diagnóstico em
+          prioridades, roadmap e métricas de sucesso. Em seguida, o Acompanhamento Consultivo ajuda
+          o time a seguir a rota e corrigir o curso com revisões periódicas.
+        </p>
+      </div>
+
+      <figure class="version__figure reveal">
+        <div class="doc-stack" data-stack>
+          <span class="doc-stack__sheet doc-stack__sheet--back" aria-hidden="true"></span>
+          <span class="doc-stack__sheet doc-stack__sheet--mid" aria-hidden="true"></span>
+          <button
+            type="button"
+            class="doc-stack__front"
+            data-zoom-src={ent04Zoom.src}
+            data-zoom-alt="Exemplo de página do Plano de Ação priorizado"
+            data-zoom-caption="Exemplo de página do Plano de Ação, com empresa e números fictícios."
+            data-zoom-servico="plano-de-acao"
+            aria-label="Ampliar exemplo de página do Plano de Ação"
+          >
+            <Image
+              src={ent04}
+              widths={[520, 840]}
+              sizes="(max-width: 820px) 88vw, 520px"
+              format="webp"
+              quality={84}
+              loading="lazy"
+              decoding="async"
+              alt="Exemplo de página do Plano de Ação com priorização e horizontes"
+            />
+          </button>
+        </div>
+        <figcaption class="version__caption">
+          Exemplo de página do Plano de Ação, com empresa e números fictícios. Clique para ampliar.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 5. Chamada final -->
+  <FinalCta ctaPosition="diag-final" />
+</BaseLayout>
+
+<style>
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 36px;
+    margin-top: 32px;
+  }
+
+  .facts b {
+    display: block;
+    font-size: 22px;
+    color: var(--color-surface-base);
+    font-weight: 600;
+  }
+
+  .facts span {
+    font-size: 14px;
+    color: var(--color-brand-accent-on-dark);
+  }
+
+  /* Três versões */
+  .versions {
+    display: grid;
+    gap: 28px;
+    margin-top: 36px;
+  }
+
+  .version {
+    display: grid;
+    grid-template-columns: 0.95fr 1.05fr;
+    gap: 44px;
+    align-items: center;
+    background: var(--color-surface-base);
+    border: var(--stroke-hairline) solid var(--color-border);
+    border-top: 3px solid var(--color-brand-accent);
+    border-radius: var(--radius-lg);
+    padding: 34px;
+    box-shadow: var(--shadow-card);
+    scroll-margin-top: 92px;
+  }
+
+  .version h3 {
+    font-size: 26px;
+    color: var(--color-brand-primary);
+    margin: 12px 0 8px;
+  }
+
+  .version__lead {
+    font-size: 16.5px;
+    color: var(--color-text-primary);
+  }
+
+  .version__list {
+    margin: 16px 0 0 18px;
+    color: var(--color-text-secondary);
+    display: grid;
+    gap: 6px;
+  }
+
+  .version__limit {
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    padding-top: 12px;
+    border-top: var(--stroke-hairline) solid var(--color-border);
+  }
+
+  .version__figure {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .version__caption {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+  }
+
+  .section--soft .version__caption {
+    color: var(--color-text-primary);
+  }
+
+  /* Regra B2: entregáveis empilhados com duas folhas atrás que deslizam até o encaixe (400 ms, uma vez) */
+  .doc-stack {
+    position: relative;
+    padding-top: 14px;
+    padding-right: 14px;
+  }
+
+  .doc-stack__sheet {
+    position: absolute;
+    inset: 14px 14px 0 0;
+    border-radius: var(--radius-md);
+    border: var(--stroke-hairline) solid var(--color-border);
+    background: var(--color-surface-soft);
+    pointer-events: none;
+    transition: transform 400ms var(--ease-out), opacity 400ms var(--ease-out);
+  }
+
+  .doc-stack__sheet--back {
+    transform: translate(14px, -14px);
+    background: var(--color-brand-accent-on-dark);
+    opacity: 0.45;
+  }
+
+  .doc-stack__sheet--mid {
+    transform: translate(7px, -7px);
+    background: var(--color-surface-soft);
+    opacity: 0.92;
+  }
+
+  :global(html.js-ready) .doc-stack:not(.is-stacked) .doc-stack__sheet--back {
+    transform: translate(28px, -24px) rotate(1.8deg);
+    opacity: 0.25;
+  }
+
+  :global(html.js-ready) .doc-stack:not(.is-stacked) .doc-stack__sheet--mid {
+    transform: translate(16px, -14px) rotate(0.9deg);
+    opacity: 0.65;
+  }
+
+  .doc-stack__front {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: var(--stroke-hairline) solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--color-surface-base);
+    box-shadow: var(--shadow-card);
+    cursor: zoom-in;
+    transition: transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+  }
+
+  .doc-stack__front:hover,
+  .doc-stack__front:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .doc-stack__front img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: left top;
+  }
+
+  /* Regra B3: navegação lateral fixa de etapas (desktop >= 1024 px) */
+  .process-layout {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 44px;
+    align-items: start;
+    margin-top: 36px;
+  }
+
+  .process-nav {
+    position: sticky;
+    top: calc(var(--header-height) + 28px);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-left: 2px solid var(--color-border);
+    padding-left: 16px;
+  }
+
+  .process-nav__link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+    font-size: 15px;
+    transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  }
+
+  .process-nav__link:hover,
+  .process-nav__link:focus-visible {
+    background: var(--color-surface-soft);
+    color: var(--color-brand-primary);
+  }
+
+  .process-nav__link.is-active {
+    background: var(--color-surface-soft);
+    color: var(--color-brand-primary);
+    font-weight: 600;
+    box-shadow: inset 3px 0 0 var(--color-brand-accent);
+  }
+
+  .process-nav__num {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-brand-primary);
+  }
+
+  .process-panels {
+    display: grid;
+    gap: 20px;
+  }
+
+  .process-panel {
+    background: var(--color-surface-base);
+    border: var(--stroke-hairline) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-card);
+    scroll-margin-top: 96px;
+  }
+
+  .process-panel h3 {
+    font-size: 22px;
+    color: var(--color-brand-primary);
+    margin: 12px 0 6px;
+  }
+
+  .process-panel__summary {
+    font-size: 16.5px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+  }
+
+  .process-panel__detail {
+    font-size: 15.5px;
+    color: var(--color-text-secondary);
+  }
+
+  /* Duas colunas: pré-requisitos e limites */
+  .twocol {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 40px;
+  }
+
+  .info-box {
+    background: var(--color-surface-base);
+    border: var(--stroke-hairline) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .info-box--soft {
+    background: var(--color-surface-soft);
+  }
+
+  .info-box h3 {
+    font-size: 20px;
+    color: var(--color-brand-primary);
+    margin-bottom: 12px;
+  }
+
+  .info-box ul {
+    margin-left: 18px;
+    display: grid;
+    gap: 8px;
+    color: var(--color-text-secondary);
+  }
+
+  .info-box--soft ul {
+    color: var(--color-text-primary);
+  }
+
+  .next-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  /* B3: abaixo de 1024 px, lista simples sem navegação lateral fixa */
+  @media (max-width: 1023px) {
+    .process-layout {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .process-nav {
+      display: none;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .version,
+    .twocol,
+    .next-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .version {
+      padding: 24px;
+    }
+  }
+</style>

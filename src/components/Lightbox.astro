@@ -1,0 +1,95 @@
+<dialog id="dls-lightbox" class="lightbox" aria-label="Visualização ampliada do entregável">
+  <div class="lightbox__inner">
+    <div class="lightbox__bar">
+      <p id="dls-lightbox-caption" class="lightbox__caption"></p>
+      <button
+        type="button"
+        id="dls-lightbox-close"
+        class="lightbox__close"
+        aria-label="Fechar visualização ampliada"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M6 6L18 18M18 6L6 18"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"></path>
+        </svg>
+        Fechar
+      </button>
+    </div>
+    <img id="dls-lightbox-img" src="" alt="" class="lightbox__img" />
+  </div>
+</dialog>
+
+<style>
+  .lightbox {
+    margin: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    max-width: min(1440px, 94vw);
+    max-height: 92vh;
+    overflow: visible;
+  }
+
+  .lightbox::backdrop {
+    background: rgba(27, 34, 9, 0.88);
+    backdrop-filter: blur(4px);
+  }
+
+  .lightbox__inner {
+    background: var(--color-brand-primary);
+    border: 1px solid rgba(201, 211, 166, 0.24);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .lightbox__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .lightbox__caption {
+    font-size: 14px;
+    color: var(--color-text-on-dark);
+  }
+
+  .lightbox__close {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 8px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(201, 211, 166, 0.35);
+    background: transparent;
+    color: var(--color-text-on-dark);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .lightbox__close:hover,
+  .lightbox__close:focus-visible {
+    background: rgba(201, 211, 166, 0.14);
+  }
+
+  .lightbox__img {
+    max-width: 100%;
+    max-height: calc(90vh - 96px);
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    border-radius: var(--radius-md);
+    background: var(--color-surface-soft);
+  }
+</style>

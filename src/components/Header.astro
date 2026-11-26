@@ -1,0 +1,238 @@
+---
+import BrandSignature from './BrandSignature.astro';
+import WhatsappIcon from './WhatsappIcon.astro';
+import { NAV_LINKS, SITE, getWhatsappBookingUrl } from '../config/site';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+const normalized = currentPath === '/' ? '/' : currentPath.replace(/\/+$/, '');
+const whatsappBookingUrl = getWhatsappBookingUrl();
+---
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="site-header__brand" href="/" aria-label={`${SITE.name}, ir para o início`}>
+      <BrandSignature height={40} />
+    </a>
+
+    <nav class="site-nav" aria-label="Principal">
+      {
+        NAV_LINKS.map((link) => (
+          <a
+            href={link.href}
+            class="site-nav__link"
+            aria-current={normalized === link.href ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        class="btn btn--primary site-nav__cta"
+        href={whatsappBookingUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cta="header"
+        data-contato="whatsapp"
+      >
+        <WhatsappIcon size={19} />
+        <span>Agendar pelo WhatsApp</span>
+      </a>
+    </nav>
+
+    <button
+      type="button"
+      id="mobile-nav-toggle"
+      class="mobile-toggle"
+      aria-expanded="false"
+      aria-controls="mobile-nav-panel"
+      aria-label="Abrir menu de navegação"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M4 7H20M4 12H20M4 17H20"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div id="mobile-nav-panel" class="mobile-panel" hidden>
+    <nav class="wrap mobile-panel__nav" aria-label="Menu móvel">
+      {
+        NAV_LINKS.map((link) => (
+          <a
+            href={link.href}
+            class="mobile-panel__link"
+            aria-current={normalized === link.href ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        class="btn btn--primary mobile-panel__cta"
+        href={whatsappBookingUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cta="header-mobile"
+        data-contato="whatsapp"
+      >
+        <WhatsappIcon size={19} />
+        <span>Agendar pelo WhatsApp</span>
+      </a>
+    </nav>
+  </div>
+
+  <noscript>
+    <nav class="noscript-nav" aria-label="Navegação sem JavaScript">
+      <div class="wrap noscript-nav__inner">
+        {NAV_LINKS.map((link) => <a href={link.href}>{link.label}</a>)}
+        <a href={whatsappBookingUrl} target="_blank" rel="noopener noreferrer">
+          Agendar pelo WhatsApp
+        </a>
+      </div>
+    </nav>
+  </noscript>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: rgba(40, 50, 17, 0.94);
+    backdrop-filter: blur(8px);
+    color: var(--color-text-on-dark);
+    border-bottom: 1px solid rgba(201, 211, 166, 0.14);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+    min-height: var(--header-height);
+  }
+
+  .site-header__brand {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    padding: 4px 0;
+    flex-shrink: 0;
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .site-nav__link {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-on-dark);
+    text-decoration: none;
+    padding: 8px 2px;
+    border-bottom: 2px solid transparent;
+    transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  }
+
+  .site-nav__link:hover,
+  .site-nav__link:focus-visible {
+    border-bottom-color: var(--color-brand-accent-on-dark);
+  }
+
+  .site-nav__link[aria-current='page'] {
+    font-weight: 600;
+    color: var(--color-surface-base);
+    border-bottom-color: var(--color-brand-accent);
+  }
+
+  .site-nav__cta {
+    min-height: 44px;
+    padding: 10px 20px;
+    white-space: nowrap;
+  }
+
+  .mobile-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(201, 211, 166, 0.35);
+    background: transparent;
+    color: var(--color-text-on-dark);
+    cursor: pointer;
+  }
+
+  .mobile-panel {
+    background: var(--color-brand-primary);
+    border-top: 1px solid rgba(201, 211, 166, 0.16);
+    padding: var(--space-4) 0 var(--space-5);
+  }
+
+  .mobile-panel__nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .mobile-panel__link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--color-text-on-dark);
+    text-decoration: none;
+    padding: 8px 4px;
+    border-bottom: 1px solid rgba(201, 211, 166, 0.12);
+  }
+
+  .mobile-panel__link[aria-current='page'] {
+    font-weight: 600;
+    color: var(--color-brand-accent-on-dark);
+  }
+
+  .mobile-panel__cta {
+    margin-top: var(--space-3);
+    width: 100%;
+  }
+
+  .noscript-nav {
+    display: none;
+    background: var(--color-brand-primary-deep);
+    border-top: 1px solid rgba(201, 211, 166, 0.18);
+  }
+
+  .noscript-nav__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 900px) {
+    .site-nav {
+      display: none;
+    }
+
+    .mobile-toggle {
+      display: inline-flex;
+    }
+
+    .noscript-nav {
+      display: block;
+    }
+  }
+</style>

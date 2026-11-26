@@ -1,0 +1,106 @@
+---
+interface Props {
+  animated?: boolean;
+  tone?: 'dark' | 'light';
+}
+const { animated = false, tone = 'dark' } = Astro.props;
+---
+
+<div
+  class:list={['rhythm', `rhythm--${tone}`, animated && 'rhythm--animated']}
+  aria-hidden="true"
+>
+  <i class="rhythm__bar rhythm__bar--d"></i>
+  <i class="rhythm__bar rhythm__bar--l"></i>
+  <i class="rhythm__bar rhythm__bar--s"></i>
+</div>
+
+<style>
+  /* Recurso gráfico do Manual v1.4 (p. 12): d (~87%), l (100% em destaque), s (curto) */
+  .rhythm {
+    position: absolute;
+    right: 6%;
+    bottom: 0;
+    display: flex;
+    align-items: flex-end;
+    gap: 18px;
+    opacity: 0.2;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .rhythm--light {
+    opacity: 0.14;
+  }
+
+  .rhythm__bar {
+    display: block;
+    width: 34px;
+    border-radius: 3px 3px 0 0;
+    background: var(--color-brand-accent-on-dark);
+  }
+
+  .rhythm--light .rhythm__bar {
+    background: var(--color-brand-primary);
+  }
+
+  .rhythm__bar--d {
+    height: 226px;
+  }
+
+  .rhythm__bar--l {
+    height: 260px;
+    background: var(--color-brand-accent);
+  }
+
+  .rhythm__bar--s {
+    height: 104px;
+  }
+
+  /* Regra B1: os três volumes sobem inteiros da linha de base, na ordem d -> l -> s, uma única vez */
+  :global(html.js-ready) .rhythm--animated .rhythm__bar {
+    transform: translateY(100%);
+    opacity: 0;
+    animation: rhythmRise 460ms var(--ease-out) forwards;
+  }
+
+  :global(html.js-ready) .rhythm--animated .rhythm__bar--d {
+    animation-delay: 300ms;
+  }
+
+  :global(html.js-ready) .rhythm--animated .rhythm__bar--l {
+    animation-delay: 450ms;
+  }
+
+  :global(html.js-ready) .rhythm--animated .rhythm__bar--s {
+    animation-delay: 600ms;
+  }
+
+  @keyframes rhythmRise {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(html.js-ready) .rhythm--animated .rhythm__bar {
+      animation: none;
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .rhythm {
+      right: 12px;
+      gap: 12px;
+      transform: scale(0.68);
+      transform-origin: bottom right;
+    }
+  }
+</style>

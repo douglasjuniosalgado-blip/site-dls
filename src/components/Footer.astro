@@ -1,0 +1,150 @@
+---
+import { SITE, NAV_LINKS, getWhatsappBookingUrl } from '../config/site';
+
+const whatsappBookingUrl = getWhatsappBookingUrl();
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap site-footer__grid">
+    <div class="site-footer__brand">
+      <p class="site-footer__name">{SITE.name}</p>
+      <p class="site-footer__sig">{SITE.signature}</p>
+      <p class="site-footer__desc">Consultoria em produto digital.</p>
+    </div>
+
+    <nav class="site-footer__col" aria-label="Navegação do rodapé">
+      <p class="site-footer__heading">Páginas</p>
+      <ul>
+        {
+          NAV_LINKS.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+        <li><a href="/privacidade">Aviso de privacidade</a></li>
+      </ul>
+    </nav>
+
+    <div class="site-footer__col">
+      <p class="site-footer__heading">Contato</p>
+      <ul>
+        <li>
+          <a
+            href={whatsappBookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cta="footer"
+            data-contato="whatsapp"
+          >
+            Agendar pelo WhatsApp: {SITE.whatsappDisplay}
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${SITE.email}`} data-contato="email">
+            {SITE.email}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap site-footer__bottom">
+    <p>{SITE.name} · {year}</p>
+    <p>Site sem cookies de rastreamento. <a href="/privacidade">Saiba mais</a>.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-brand-primary-deep);
+    color: var(--color-brand-accent-on-dark);
+    font-size: 14px;
+    padding: 56px 0 32px;
+  }
+
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid rgba(201, 211, 166, 0.16);
+  }
+
+  .site-footer__name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-on-dark);
+  }
+
+  .site-footer__sig {
+    margin-top: 6px;
+    font-weight: 600;
+    color: var(--color-text-on-dark);
+    letter-spacing: 0.2px;
+  }
+
+  .site-footer__desc {
+    margin-top: 8px;
+    color: var(--color-brand-accent-on-dark);
+  }
+
+  .site-footer__heading {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--color-text-on-dark);
+    margin-bottom: 12px;
+  }
+
+  .site-footer__col ul {
+    list-style: none;
+    display: grid;
+    gap: 8px;
+  }
+
+  .site-footer__col a {
+    display: inline-block;
+    padding: 4px 0;
+    text-decoration: none;
+    color: var(--color-brand-accent-on-dark);
+  }
+
+  .site-footer__col a:hover,
+  .site-footer__col a:focus-visible {
+    color: var(--color-surface-base);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .site-footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 24px;
+    font-size: 13px;
+    color: var(--color-brand-accent-on-dark);
+  }
+
+  .site-footer__bottom a {
+    color: var(--color-text-on-dark);
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 768px) {
+    .site-footer__grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .site-footer__col a {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+</style>

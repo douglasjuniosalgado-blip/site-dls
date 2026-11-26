@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config/site';
+---
+
+<BaseLayout
+  title="Aviso de privacidade | DLS Estratégia e Consultoria"
+  description="Como a DLS Estratégia e Consultoria trata dados pessoais e medição de acesso no site de consultoria em produto digital, em conformidade com a LGPD."
+  canonicalPath="/privacidade"
+>
+  <section class="section section--dark dark-atmosphere page-hero">
+    <div class="wrap">
+      <span class="overline overline--on-dark">Transparência · LGPD</span>
+      <h1>Aviso de privacidade</h1>
+      <p class="lead">
+        Como este site mede acessos sem usar cookies de rastreamento e como tratamos os dados
+        quando você entra em contato.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="wrap legal">
+      <article class="legal__block">
+        <h2>1. Quem responde pelo tratamento</h2>
+        <p>
+          Este site pertence à <strong>{SITE.name}</strong>. Qualquer dúvida ou solicitação sobre
+          dados pessoais pode ser enviada para{' '}
+          <a href={`mailto:${SITE.email}`} data-contato="email">{SITE.email}</a>.
+        </p>
+      </article>
+
+      <article class="legal__block">
+        <h2>2. Medição de uso sem cookies</h2>
+        <p>
+          Para entender quais páginas e seções ajudam quem visita o site e acompanhar o desempenho
+          técnico, utilizamos duas ferramentas configuradas sem cookies de rastreamento e sem
+          gravação de dados persistentes no seu navegador:
+        </p>
+        <ul>
+          <li>
+            <strong>Cloudflare Web Analytics:</strong> mede volume de visitas, origem de tráfego,
+            tipo de dispositivo e métricas técnicas de carregamento, de forma agregada e sem
+            cookies.
+          </li>
+          <li>
+            <strong>PostHog em modo somente memória:</strong> registra interações no site (como
+            visualização de seções, cliques em botões e abertura de perguntas frequentes) mantendo
+            identificador temporário apenas na memória da aba atual. Ao fechar a aba ou recarregar o
+            site, esse identificador é descartado e não reconhece visitas futuras.
+          </li>
+        </ul>
+      </article>
+
+      <article class="legal__block">
+        <h2>3. Dados informados por você no contato</h2>
+        <p>
+          Ao iniciar contato pelo WhatsApp ou por e-mail para agendar uma conversa, você fornece
+          voluntariamente dados como nome, e-mail, telefone e contexto do seu produto digital. Esses
+          dados são usados exclusivamente para responder à sua solicitação, agendar a conversa e
+          elaborar eventual proposta comercial. Não vendemos nem compartilhamos seus dados com
+          terceiros para fins publicitários.
+        </p>
+      </article>
+
+      <article class="legal__block">
+        <h2>4. Seus direitos (LGPD)</h2>
+        <p>
+          Nos termos da Lei Geral de Proteção de Dados (Lei nº 13.709/2018), você pode solicitar a
+          qualquer momento a confirmação de tratamento, acesso, correção ou eliminação dos dados
+          pessoais fornecidos em contato comercial, escrevendo para{' '}
+          <a href={`mailto:${SITE.email}`} data-contato="email">{SITE.email}</a>.
+        </p>
+      </article>
+
+      <p class="demo-note">Última atualização: novembro de 2026.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal {
+    max-width: 780px;
+    margin-left: 0;
+    display: grid;
+    gap: 28px;
+  }
+
+  .legal__block h2 {
+    font-size: 22px;
+    color: var(--color-brand-primary);
+    margin-bottom: 10px;
+  }
+
+  .legal__block p {
+    font-size: 16px;
+    color: var(--color-text-primary);
+    margin-bottom: 10px;
+  }
+
+  .legal__block ul {
+    margin: 8px 0 0 20px;
+    display: grid;
+    gap: 10px;
+    color: var(--color-text-primary);
+  }
+
+  .legal__block a {
+    color: var(--color-brand-primary);
+    font-weight: 500;
+    text-underline-offset: 3px;
+  }
+</style>

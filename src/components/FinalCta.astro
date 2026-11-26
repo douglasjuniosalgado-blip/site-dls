@@ -1,0 +1,74 @@
+---
+import RhythmBars from './RhythmBars.astro';
+import WhatsappIcon from './WhatsappIcon.astro';
+import { SITE, getWhatsappBookingUrl } from '../config/site';
+
+interface Props {
+  ctaPosition: string;
+}
+
+const { ctaPosition } = Astro.props;
+const whatsappBookingUrl = getWhatsappBookingUrl();
+---
+
+<section class="section section--dark dark-atmosphere final-cta" data-track-section="chamada-final">
+  <RhythmBars tone="dark" />
+  <div class="wrap final-cta__content">
+    <span class="overline overline--on-dark">Próximo passo</span>
+    <h2 class="section-title">O primeiro passo é uma conversa sobre o seu produto.</h2>
+    <p class="section-lead">
+      Você conta o momento do produto digital, e a gente vê juntos se o Diagnóstico faz sentido agora.
+    </p>
+    <div class="final-cta__actions">
+      <a
+        class="btn btn--primary"
+        href={whatsappBookingUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cta={ctaPosition}
+        data-contato="whatsapp"
+      >
+        <WhatsappIcon size={20} />
+        <span>Agendar pelo WhatsApp</span>
+      </a>
+    </div>
+    <p class="final-cta__alt">
+      Prefere e-mail?
+      <a href={`mailto:${SITE.email}`} data-contato="email">
+        {SITE.email}
+      </a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .final-cta__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .final-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    align-items: center;
+  }
+
+  .final-cta__alt {
+    margin-top: var(--space-5);
+    font-size: 15px;
+    color: var(--color-brand-accent-on-dark);
+  }
+
+  .final-cta__alt a {
+    color: var(--color-text-on-dark);
+    font-weight: 500;
+    text-underline-offset: 4px;
+    padding: 4px 2px;
+  }
+
+  .final-cta__alt a:hover {
+    color: var(--color-surface-base);
+  }
+</style>

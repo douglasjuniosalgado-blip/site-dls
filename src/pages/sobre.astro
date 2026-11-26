@@ -1,0 +1,220 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RhythmBars from '../components/RhythmBars.astro';
+import FinalCta from '../components/FinalCta.astro';
+import simboloRaw from '../assets/brand/dls-simbolo.svg?raw';
+---
+
+<BaseLayout
+  title="Sobre | DLS Estratégia e Consultoria em produto digital"
+  description="Conheça a origem da DLS, o método Dado · Informação · Ação e a forma de trabalhar em consultoria em produto digital."
+  canonicalPath="/sobre"
+>
+  <!-- 1. Abertura -->
+  <section class="section section--dark dark-atmosphere page-hero" data-track-section="sobre-abertura">
+    <RhythmBars tone="dark" />
+    <div class="wrap">
+      <span class="overline overline--on-dark">Sobre a DLS · consultoria em produto digital</span>
+      <h1>Direção que forma.</h1>
+      <p class="lead">
+        Conduzir as decisões certas em produto digital e, nesse processo, deixar o time mais capaz
+        de conduzir as próximas.
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. Origem (sem foto pessoal; símbolo oficial da marca dentro da área de proteção) -->
+  <section class="section section--soft" data-track-section="sobre-origem">
+    <div class="wrap origin-grid">
+      <div class="reveal">
+        <span class="overline">Origem</span>
+        <h2 class="section-title">Produto se constrói em etapas.</h2>
+        <p class="origin-text">
+          O símbolo da DLS nasce da arquitetura, formação do fundador Douglas Salgado: volumes de
+          alturas diferentes, como uma construção. Na prática da consultoria em produto digital,
+          isso se traduz em decidir o que vale construir antes de comprometer tempo e orçamento.
+        </p>
+        <p class="origin-text">
+          Cada letra do símbolo representa uma camada do trabalho: o fundamento centrado em quem
+          usa ou vai usar o produto, o crescimento de quem aprende fazendo e a continuidade do time
+          depois da entrega.
+        </p>
+      </div>
+
+      <figure class="symbol-card reveal">
+        <div class="symbol-card__stage" set:html={simboloRaw} />
+        <figcaption class="symbol-card__legend">
+          <span><strong>d</strong> fundamento</span>
+          <span><strong>l</strong> crescimento</span>
+          <span><strong>s</strong> continuidade</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 3. Método -->
+  <section class="section section--white method-sobre" data-track-section="sobre-metodo">
+    <RhythmBars tone="light" />
+    <div class="wrap method-sobre__inner">
+      <span class="overline reveal">Método</span>
+      <h2 class="section-title reveal">Dado · Informação · Ação</h2>
+      <p class="section-lead reveal">
+        A sequência deriva da hierarquia DIKW (Ackoff, 1989), com o topo voltado para a ação no
+        produto digital.
+      </p>
+
+      <div class="pillars seq">
+        <article class="pillar reveal">
+          <span class="tag">Diagnóstico</span>
+          <h3>Dado</h3>
+          <p>Levantar a realidade do produto, do uso e do negócio, sem partir de suposições.</p>
+        </article>
+        <article class="pillar reveal">
+          <span class="tag">Discovery</span>
+          <h3>Informação</h3>
+          <p>Dar sentido ao que foi levantado, a partir de quem usa ou vai usar o produto.</p>
+        </article>
+        <article class="pillar reveal">
+          <span class="tag">Plano de delivery</span>
+          <h3>Ação</h3>
+          <p>Transformar a leitura em decisão, prioridade e especificação para o time seguir.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Forma de trabalhar -->
+  <section class="section section--soft" data-track-section="sobre-compromissos">
+    <div class="wrap">
+      <span class="overline reveal">Como trabalhamos</span>
+      <h2 class="section-title reveal">Três compromissos em todo projeto.</h2>
+
+      <div class="pillars seq">
+        <article class="pillar reveal">
+          <h3>Escopo fechado</h3>
+          <p>
+            Entregáveis, prazo e critério de aceite definidos antes de começar, com obrigação de
+            meio transparente e sem promessas irreais.
+          </p>
+        </article>
+        <article class="pillar reveal">
+          <h3>Evidência antes de opinião</h3>
+          <p>
+            Cada recomendação mostra de onde veio: dado de uso, entrevista com o público do produto
+            ou análise de documentação e backlog.
+          </p>
+        </article>
+        <article class="pillar reveal">
+          <h3>Conhecimento que fica</h3>
+          <p>
+            O porquê de cada decisão é explicado e documentado, para que as próximas etapas sejam
+            conduzidas sem depender da DLS.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Chamada final -->
+  <FinalCta ctaPosition="sobre-final" />
+</BaseLayout>
+
+<style>
+  .origin-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .origin-text {
+    font-size: 17px;
+    color: var(--color-text-primary);
+    max-width: 640px;
+    margin-top: 14px;
+  }
+
+  .symbol-card {
+    background: var(--color-surface-base);
+    border: var(--stroke-hairline) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 40px 32px 28px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .symbol-card__stage {
+    padding: 20px 24px;
+  }
+
+  .symbol-card__stage :global(svg) {
+    width: 190px;
+    height: auto;
+  }
+
+  .symbol-card__legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px;
+    padding-top: 16px;
+    border-top: var(--stroke-hairline) solid var(--color-border);
+    width: 100%;
+    font-size: 13.5px;
+    color: var(--color-text-secondary);
+  }
+
+  .symbol-card__legend strong {
+    color: var(--color-brand-primary);
+    margin-right: 4px;
+  }
+
+  .method-sobre {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .method-sobre__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 36px;
+  }
+
+  .pillar {
+    background: var(--color-surface-base);
+    border: var(--stroke-hairline) solid var(--color-border);
+    border-top: 3px solid var(--color-brand-accent);
+    border-radius: var(--radius-lg);
+    padding: 26px;
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pillar h3 {
+    font-size: 21px;
+    color: var(--color-brand-primary);
+  }
+
+  .pillar p {
+    font-size: 15.5px;
+    color: var(--color-text-secondary);
+  }
+
+  @media (max-width: 820px) {
+    .origin-grid,
+    .pillars {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
