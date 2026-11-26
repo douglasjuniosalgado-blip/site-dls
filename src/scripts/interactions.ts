@@ -3,6 +3,8 @@ import { initTelemetry, trackEvent } from './telemetry';
 let revealObserver: IntersectionObserver | null = null;
 let stackObserver: IntersectionObserver | null = null;
 let stepObserver: IntersectionObserver | null = null;
+let lightboxDocBound = false;
+let mobileDocBound = false;
 
 function setupReveals(): void {
   if (revealObserver) {
@@ -111,20 +113,30 @@ function setupStickySteps(): void {
   panels.forEach((panel) => stepObserver?.observe(panel));
 }
 
-/** Lightbox acessível via elemento nativo <dialog> */
+/** Lightbox acessível via elemento nativo <dialog> (seguro em View Transitions) */
 function setupLightbox(): void {
   const dialog = document.getElementById('dls-lightbox') as HTMLDialogElement | null;
-  const img = document.getElementById('dls-lightbox-img') as HTMLImageElement | null;
-  const caption = document.getElementById('dls-lightbox-caption') as HTMLElement | null;
   const closeBtn = document.getElementById('dls-lightbox-close') as HTMLButtonElement | null;
 
-  if (!dialog || !img) return;
-  if (dialog.dataset.bound === 'true') return;
-  dialog.dataset.bound = 'true';
+  if (dialog && dialog.dataset.bound !== 'true') {
+    dialog.dataset.bound = 'true';
+    closeBtn?.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  }
+
+  if (lightboxDocBound) return;
+  lightboxDocBound = true;
 
   document.addEventListener('click', (event) => {
     const trigger = (event.target as HTMLElement | null)?.closest<HTMLElement>('[data-zoom-src]');
     if (!trigger) return;
+
+    const currentDialog = document.getElementById('dls-lightbox') as HTMLDialogElement | null;
+    const img = document.getElementById('dls-lightbox-img') as HTMLImageElement | null;
+    const caption = document.getElementById('dls-lightbox-caption') as HTMLElement | null;
+    if (!currentDialog || !img) return;
 
     const src = trigger.dataset.zoomSrc;
     const alt = trigger.dataset.zoomAlt || '';
@@ -138,44 +150,43 @@ function setupLightbox(): void {
     if (servico) {
       trackEvent('servico_visualizado', { servico });
     }
-    dialog.showModal();
-  });
-
-  closeBtn?.addEventListener('click', () => dialog.close());
-  dialog.addEventListener('click', (event) => {
-    if (event.target === dialog) dialog.close();
+    currentDialog.showModal();
   });
 }
 
-/** Menu móvel acessível */
+/** Menu móvel acessível (seguro em View Transitions) */
 function setupMobileNav(): void {
   const toggle = document.getElementById('mobile-nav-toggle') as HTMLButtonElement | null;
   const menu = document.getElementById('mobile-nav-panel') as HTMLElement | null;
-  if (!toggle || !menu) return;
-  if (toggle.dataset.bound === 'true') return;
-  toggle.dataset.bound = 'true';
 
-  const closeMenu = () => {
-    toggle.setAttribute('aria-expanded', 'false');
-    menu.hidden = true;
-  };
+  if (toggle && menu && toggle.dataset.bound !== 'true') {
+    toggle.dataset.bound = 'true';
 
-  toggle.addEventListener('click', () => {
-    const expanded = toggle.getAttribute('aria-expanded') === 'true';
-    toggle.setAttribute('aria-expanded', String(!expanded));
-    menu.hidden = expanded;
-  });
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      menu.hidden = expanded;
+    });
 
-  menu.addEventListener('click', (event) => {
-    if ((event.target as HTMLElement | null)?.closest('a')) {
-      closeMenu();
-    }
-  });
+    menu.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement | null)?.closest('a')) {
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.hidden = true;
+      }
+    });
+  }
+
+  if (mobileDocBound) return;
+  mobileDocBound = true;
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
-      closeMenu();
-      toggle.focus();
+    if (event.key !== 'Escape') return;
+    const currentToggle = document.getElementById('mobile-nav-toggle') as HTMLButtonElement | null;
+    const currentMenu = document.getElementById('mobile-nav-panel') as HTMLElement | null;
+    if (currentToggle && currentMenu && currentToggle.getAttribute('aria-expanded') === 'true') {
+      currentToggle.setAttribute('aria-expanded', 'false');
+      currentMenu.hidden = true;
+      currentToggle.focus();
     }
   });
 }
@@ -190,9 +201,5 @@ export function initPage(): void {
   initTelemetry();
 }
 
+/* Com ClientRouter do Astro, astro:page-load dispara tanto no carregamento inicial quanto em cada transição */
 document.addEventListener('astro:page-load', initPage);
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initPage, { once: true });
-} else {
-  initPage();
-}
